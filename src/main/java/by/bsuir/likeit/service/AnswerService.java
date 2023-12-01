@@ -1,6 +1,7 @@
 package by.bsuir.likeit.service;
 
 
+import by.bsuir.likeit.dto.request.AnswerRequest;
 import by.bsuir.likeit.entity.Answer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,11 +10,11 @@ import java.util.List;
 
 public interface AnswerService {
 
-    Answer addAnswer(String text, long authorId, long questionId);
+    Answer addAnswer(AnswerRequest answerRequest, String authorName);
 
     Answer getAnswer(long id);
 
-    Page<Answer> getAllAnswers(PageRequest pageRequest);
+    Page<Answer> getAllAnswers(int page, int pageSize);
 
     List<Answer> getAllAnswers();
 

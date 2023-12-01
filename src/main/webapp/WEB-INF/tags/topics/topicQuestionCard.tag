@@ -8,7 +8,7 @@
 <%@attribute name="question" required="true" type="by.bsuir.likeit.entity.Question" %>
 <div class="card m-2 flex-shrink-0">
     <div class="card-body">
-        <h5 class="card-title"><a href="<c:url value="/question?id=${question.id}"/>" class="text-decoration-none"><c:out value="${question.title}"/></a></h5>
+        <h5 class="card-title"><a href="<c:url value="/question/${question.id}"/>" class="text-decoration-none"><c:out value="${question.title}"/></a></h5>
         <p class="card-text"><c:if test="${fn:length(question.text) > 100}"><c:out
                 value="${fn:substring(question.text, 0, 100)}"/>...</c:if><c:if
                 test="${fn:length(question.text) <= 100}"><c:out value="${question.text}"/></c:if></p>

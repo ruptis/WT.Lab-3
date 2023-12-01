@@ -23,7 +23,7 @@ public class SecurityConfig {
                 .csrf(Customizer.withDefaults())
                 .authenticationProvider(authenticationProvider)
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/question").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
+                        .requestMatchers("/question/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
                         .requestMatchers("/profile/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
                         .requestMatchers("/topic/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
                         .requestMatchers("/topics").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())

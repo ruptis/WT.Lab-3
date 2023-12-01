@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-10">
             <div class="card-body">
-                <h5 class="card-title"><a href="<c:url value="/question?id=${question.id}"/>" class="text-decoration-none">${question.title}</a></h5>
+                <h5 class="card-title"><a href="<c:url value="/question/${question.id}"/>" class="text-decoration-none">${question.title}</a></h5>
                 <p class="card-text">${question.text}</p>
                 <div class="d-flex justify-content-between align-items-center">
                     <div>

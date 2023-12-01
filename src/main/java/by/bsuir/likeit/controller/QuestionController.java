@@ -1,7 +1,11 @@
 package by.bsuir.likeit.controller;
 
+import by.bsuir.likeit.dto.request.AnswerRequest;
 import by.bsuir.likeit.dto.request.QuestionRequest;
+import by.bsuir.likeit.entity.Question;
+import by.bsuir.likeit.service.AnswerService;
 import by.bsuir.likeit.service.QuestionService;
+import by.bsuir.likeit.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,10 +19,20 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class QuestionController {
 
-    private final QuestionService questionService;
+    public static final int PAGE_SIZE = 10;
 
-    @GetMapping("")
-    public String question(Model model) {
+    private final QuestionService questionService;
+    private final AnswerService answerService;
+    private final UserService userService;
+
+    @GetMapping("/{id}")
+    public String question(@RequestParam(defaultValue = "0") int page, @PathVariable long id, Model model, Principal principal) {
+        Question question = questionService.getQuestion(id);
+        model.addAttribute("questionRequest", new QuestionRequest(question.getTopic().getId(), question.getTitle(), question.getText()));
+        model.addAttribute("answerRequest", new AnswerRequest());
+        model.addAttribute("user", userService.getUserByUsername(principal.getName()));
+        model.addAttribute("question", question);
+        model.addAttribute("answers", answerService.getAllAnswersByQuestion(id, page, PAGE_SIZE));
         return "question";
     }
 
@@ -34,8 +48,8 @@ public class QuestionController {
         return "redirect:/question";
     }
 
-    @PutMapping("/{id}")
-    public String updateQuestion(@PathVariable long id, @Valid @ModelAttribute("question") QuestionRequest questionRequest) {
+    @PostMapping("/{id}")
+    public String updateQuestion(@PathVariable long id, @Valid @ModelAttribute("questionRequest") QuestionRequest questionRequest) {
         questionService.updateQuestion(questionRequest, id);
         return "redirect:/question";
     }

@@ -15,7 +15,7 @@
                 <p class="card-text"><c:out value="${answer.text}"/></p>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="d-flex gap-2 align-items-end flex-lg-row flex-column justify-content-start">
-                        <a href="<c:url value="/question?id=${answer.question.id}"/>"
+                        <a href="<c:url value="/question/${answer.question.id}"/>"
                            class="text-decoration-none"><c:out value="${answer.question.title}"/></a>
                         <a href="<c:url value="/topic/${answer.question.topic.id}"/>"
                            class="badge bg-info text-decoration-none"><c:out value="${answer.question.topic.name}"/></a>

@@ -1,15 +1,14 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="d" uri="date" %>
-<fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="messages"/>
 
-<%@attribute name="answer" required="true" type="by.bsuir.wtlab2.entity.Answer" %>
-<%@attribute name="vote" required="true" type="java.util.Optional<by.bsuir.wtlab2.entity.Vote>" %>
+<%@attribute name="answer" required="true" type="by.bsuir.likeit.entity.Answer" %>
+<%@attribute name="vote" required="true" type="java.util.Optional<by.bsuir.likeit.entity.Vote>" %>
 
-<c:set var="upvoted" value="${vote.present && vote.get().change == 1}"/>
-<c:set var="downvoted" value="${vote.present && vote.get().change == -1}"/>
+<c:set var="upvoted" value="${vote.present && vote.get().value == 1}"/>
+<c:set var="downvoted" value="${vote.present && vote.get().value == -1}"/>
 <div class="row">
     <div class="col-md-1">
         <div class="d-flex flex-column align-items-center">
@@ -22,7 +21,7 @@
                 </c:choose> rounded-5 mb-2" id="arrow-up-<c:out value="${answer.id}"/>">
                 <i class="bi bi-arrow-up text-muted fs-4"></i>
             </button>
-            <span class="lead"><c:out value="${answer.reputation}"/></span>
+            <span class="lead"><c:out value="${answer.rating}"/></span>
             <button onclick="<c:choose>
                 <c:when test="${downvoted}">unvote(${answer.id})</c:when>
                 <c:otherwise>downvote(${answer.id})</c:otherwise>
@@ -67,7 +66,7 @@
             downvoteButton.classList.remove("active");
         }
 
-        fetch("/answer/upvote?id=" + id, {
+        fetch("/answer/upvote/" + id, {
             method: "POST",
         }).then(response => {
             if (response.ok) {
@@ -88,7 +87,7 @@
             downvoteButton.classList.add("active");
         }
 
-        fetch("/answer/downvote?id=" + id, {
+        fetch("/answer/downvote/" + id, {
             method: "POST",
         }).then(response => {
             if (response.ok) {
@@ -104,7 +103,7 @@
         upvoteButton.classList.remove("active");
         downvoteButton.classList.remove("active");
 
-        fetch("/answer/unvote?id=" + id, {
+        fetch("/answer/unvote/" + id, {
             method: "POST",
         }).then(response => {
             if (response.ok) {
